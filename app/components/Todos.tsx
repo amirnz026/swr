@@ -11,7 +11,7 @@ export default function Todos() {
 
   // return <div>hello {data.name}!</div>
 
-  const { error, isLoading, todos } = useTodos();
+  const { error, isLoading, data } = useTodos();
   // we can use this useTodos every where in every components
   // there is only one request which reduces network traffics
   // the data gets updated on user focus or network reconnects
@@ -19,5 +19,13 @@ export default function Todos() {
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error...</p>;
-  return <p>{JSON.stringify(todos)}</p>;
+  return (
+    <ul>
+      {data?.map((todo) => (
+        <li key={todo.id}>
+          <p>Title: {todo.title}</p>
+        </li>
+      ))}
+    </ul>
+  );
 }

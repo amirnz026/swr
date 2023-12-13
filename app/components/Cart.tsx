@@ -3,7 +3,7 @@ import { useCart, useUser } from "@/app/services/queries";
 
 export default function Cart() {
   const userQuery = useUser();
-  const cartQuery = useCart(userQuery.data);
+  const cartQuery = useCart();
 
   return (
     <div>

@@ -1,5 +1,5 @@
 "use client";
-import { Todo } from "@/app/types/Todo";
+import { Todo } from "@/app/types/todo";
 import { useEffect, useState } from "react";
 
 export default function Old() {

@@ -1,7 +1,8 @@
 import fetcher from "@/app/services/fetcher";
-import { Cart } from "@/app/types/Cart";
-import { Todo } from "@/app/types/Todo";
-import { User } from "@/app/types/User";
+import { Cart } from "@/app/types/cart";
+import { User } from "@/app/types/user";
+import { Product } from "@/app/types/product";
+import { Todo } from "@/app/types/todo";
 import useSWR from "swr";
 
 export function useTodos() {
@@ -32,13 +33,20 @@ export function useTodos() {
   // wrong, the arguments and key the same
   // const { data } = useSWR("/todos", (url) => fetchWithToken(url, token));
 
-  return { todos: data, error, isLoading };
+  return { data, error, isLoading };
 }
 
 export function useUser() {
   return useSWR<User>("/user");
 }
 
-export function useCart(user: User) {
-  return useSWR<Cart>(user ? "/cart" : null);
+export function useCart() {
+  const { data } = useUser();
+
+  // if the key is null or falsy, the query wont run
+  return useSWR<Cart>(data ? "/cart" : null);
+}
+
+export function useProducts() {
+  return useSWR<Product[]>("/products");
 }

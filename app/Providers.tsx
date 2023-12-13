@@ -9,7 +9,7 @@ export default function Providers({ children }: { children: ReactNode }) {
   return (
     <SWRConfig
       value={{
-        refreshInterval: 3000,
+        // refreshInterval: 3000,
         fetcher,
 
         // if server data is immutable, it's a good idea to do this
