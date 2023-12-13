@@ -1,4 +1,7 @@
-import fetcher from "@/app/fetcher";
+import fetcher from "@/app/services/fetcher";
+import { Cart } from "@/app/types/Cart";
+import { Todo } from "@/app/types/Todo";
+import { User } from "@/app/types/User";
 import useSWR from "swr";
 
 export function useTodos() {
@@ -7,7 +10,11 @@ export function useTodos() {
   // fallback data and previous data are not considered "loaded data"
   // isValidating => if there's a request or revalidation loading
   // mutate => function to mutate the cached data
-  const { data, error, isLoading, isValidating, mutate } = useSWR(
+
+  // const todosQuery = useSWR("/todos", () => fetcher("/todos"));
+  // const todosQuery = useSWR("/todos", url => fetcher(url));
+  // const todosQuery = useSWR('/todos', fetcher)
+  const { data, error, isLoading, isValidating, mutate } = useSWR<Todo[]>(
     "/todos",
     // fetcher can be omitted if provided globally
     // fetcher,
@@ -22,5 +29,16 @@ export function useTodos() {
     }
   );
 
+  // wrong, the arguments and key the same
+  // const { data } = useSWR("/todos", (url) => fetchWithToken(url, token));
+
   return { todos: data, error, isLoading };
+}
+
+export function useUser() {
+  return useSWR<User>("/user");
+}
+
+export function useCart(user: User) {
+  return useSWR<Cart>(user ? "/cart" : null);
 }
