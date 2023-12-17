@@ -1,23 +1,24 @@
-import fetcher from "@/app/services/fetcher";
 import { Cart } from "@/app/types/cart";
 import { User } from "@/app/types/user";
 import { Product } from "@/app/types/product";
-import { Todo } from "@/app/types/todo";
 import useSWR from "swr";
 import { Post } from "@/app/types/post";
+import useSWRInfinite from "swr/infinite";
+import { Todo } from "@/app/types/todo";
+import { logger } from "@/app/utils/logger";
 
-export function useTodos() {
+export function usePosts(pageIndex: number) {
   // error returned by fetcher
   // if there an ongoing request and no loaded data => isLoading
   // fallback data and previous data are not considered "loaded data"
   // isValidating => if there's a request or revalidation loading
   // mutate => function to mutate the cached data
 
-  // const todosQuery = useSWR("/todos", () => fetcher("/todos"));
-  // const todosQuery = useSWR("/todos", url => fetcher(url));
-  // const todosQuery = useSWR('/todos', fetcher)
-  const { data, error, isLoading, isValidating, mutate } = useSWR<Todo[]>(
-    "/todos",
+  // const postsQuery = useSWR("/posts", () => fetcher("/posts"));
+  // const postsQuery = useSWR("/posts", url => fetcher(url));
+  // const postsQuery = useSWR('/posts', fetcher)
+  const { data, error, isLoading, isValidating, mutate } = useSWR<Post[]>(
+    `/posts?_limit=3&_page=${pageIndex}`,
     // fetcher can be omitted if provided globally
     // fetcher,
     {
@@ -32,7 +33,7 @@ export function useTodos() {
   );
 
   // wrong, the arguments and key the same
-  // const { data } = useSWR("/todos", (url) => fetchWithToken(url, token));
+  // const { data } = useSWR("/posts", (url) => fetchWithToken(url, token));
 
   return { data, error, isLoading };
 }
@@ -49,9 +50,13 @@ export function useCart() {
 }
 
 export function useProducts() {
-  return useSWR<Product[]>("/products");
+  return useSWR<Product[]>("/products", { use: [logger] });
 }
 
-export function usePosts(pageIndex: number) {
-  return useSWR<Post[]>(`/posts?_limit=3&_page=${pageIndex}`);
+export function useTodos() {
+  const getKey = (pageIndex: number, previousPageData: Todo[]) => {
+    if (previousPageData && !previousPageData.length) return null;
+    return `/todos?_page=${pageIndex}&_limit=3`;
+  };
+  return useSWRInfinite<Todo[]>(getKey);
 }

@@ -1,31 +1,17 @@
 "use client";
-import fetcher from "@/app/services/fetcher";
 import { useTodos } from "@/app/services/queries";
-import useSWR from "swr";
 
 export default function Todos() {
-  //   const { data, error, isLoading } = useSWR('/api/user/123', fetcher)
+  const { data, setSize, size } = useTodos();
 
-  // if (error) return <div>failed to load</div>
-  // if (isLoading) return <div>loading...</div>
+  if (!data) return "loading";
 
-  // return <div>hello {data.name}!</div>
-
-  const { error, isLoading, data } = useTodos();
-  // we can use this useTodos every where in every components
-  // there is only one request which reduces network traffics
-  // the data gets updated on user focus or network reconnects
-  // switch between tabs or refocus the page
-
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error...</p>;
   return (
-    <ul>
-      {data?.map((todo) => (
-        <li key={todo.id}>
-          <p>Title: {todo.title}</p>
-        </li>
-      ))}
-    </ul>
+    <div>
+      {data.map((todos) => {
+        return todos.map((todo) => <div key={todo.id}>{todo.title}</div>);
+      })}
+      <button onClick={() => setSize(size + 1)}>Load More</button>
+    </div>
   );
 }

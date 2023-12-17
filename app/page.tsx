@@ -8,10 +8,10 @@ export default function Home() {
   return (
     <>
       {/* <Old />
-      <Todos />
       <Cart />
-      <Product /> */}
-      <PostsWrapper />
+      <Products />
+      <PostsWrapper /> */}
+      <Todos />
     </>
   );
 }

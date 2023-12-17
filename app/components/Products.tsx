@@ -40,7 +40,7 @@ export default function Products() {
         ))}
       </ul>
       <input
-        placeholder="Todo title"
+        placeholder="Product title"
         value={inputValue}
         onChange={handleUpdateInputValue}
       />
