@@ -4,7 +4,7 @@ import { useCreateProduct } from "@/app/services/mutations";
 import { useProducts } from "@/app/services/queries";
 import { ChangeEvent, useState } from "react";
 
-export default function Product() {
+export default function Products() {
   const [inputValue, setInputValue] = useState("");
 
   const { data, mutate, isValidating } = useProducts();

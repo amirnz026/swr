@@ -4,6 +4,7 @@ import { User } from "@/app/types/user";
 import { Product } from "@/app/types/product";
 import { Todo } from "@/app/types/todo";
 import useSWR from "swr";
+import { Post } from "@/app/types/post";
 
 export function useTodos() {
   // error returned by fetcher
@@ -49,4 +50,8 @@ export function useCart() {
 
 export function useProducts() {
   return useSWR<Product[]>("/products");
+}
+
+export function usePosts(pageIndex: number) {
+  return useSWR<Post[]>(`/posts?_limit=3&_page=${pageIndex}`);
 }
