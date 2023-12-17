@@ -7,10 +7,10 @@ import Todos from "@/app/components/Todos";
 export default function Home() {
   return (
     <>
-      {/* <Old />
+      <Old />
       <Cart />
       <Products />
-      <PostsWrapper /> */}
+      <PostsWrapper />
       <Todos />
     </>
   );
