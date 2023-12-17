@@ -34,6 +34,7 @@ export function usePosts(pageIndex: number) {
 
   // wrong, the arguments and key the same
   // const { data } = useSWR("/posts", (url) => fetchWithToken(url, token));
+  // devtools
 
   return { data, error, isLoading };
 }
